@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend Source Code",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WVU-CS330-2025-01-Group02/Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WVU-CS330-2025-01-Group02/Backend/issues"
+  },
+  "homepage": "https://github.com/WVU-CS330-2025-01-Group02/Backend#readme",
+  "dependencies": {
+    "axios": "^1.8.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "papaparse": "^5.5.2"
+  }
+}
