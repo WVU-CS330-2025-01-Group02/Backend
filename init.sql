@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL
+);
+
+INSERT INTO users (name, email) VALUES
+('Chuck Dunn', 'cgd00012@mix.wvu.edu'),
+
+CREATE TABLE IF NOT EXISTS epa_smart_location (
+    GEOID VARCHAR(20) PRIMARY KEY,
+    CSA VARCHAR(255),
+    CBSA VARCHAR(255),
+    TotPop DECIMAL(12,4),
+    D1A DECIMAL(12,4),
+    D1B DECIMAL(12,4),
+    D1C DECIMAL(12,4),
+    D2A_JPHH DECIMAL(12,4),
+    D2B_E8MIXA DECIMAL(12,4),
+    D3A DECIMAL(12,4),
+    D4A DECIMAL(12,4),
+    -- Add other columns as needed from the CSV
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
