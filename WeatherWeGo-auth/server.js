@@ -4,6 +4,7 @@ const mysql = require('mysql2');
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Create a connection to the database
 const db = mysql.createConnection({
@@ -35,6 +36,18 @@ app.post('/login', (req, res) => {
         } else {
             res.status(401).json({ message: 'Authentication failed' });
         }
+    });
+});
+
+// Registration route
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
+    db.query(query, [username, password], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json({ message: 'User registered successfully' });
     });
 });
 

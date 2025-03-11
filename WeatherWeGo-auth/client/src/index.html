@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel='stylesheet' href="index.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -39,5 +40,28 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <div class="overlay"></div>
+    <div class="main">
+        <h1>Weather We Go</h1>
+    
+    <div class="container">
+        <div class="left">
+            <h3>Register!</h3>
+
+    <form action="http://localhost:3000/register" method="post"> 
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username:" required><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password:" required><br>
+        
+        <button type="submit" >Register</button>
+    </form>
+    
+    <p>
+        <p>Already have an account?<a href="login.html"> Sign in here!<br></a></p>
+        <p>Or<a href="/continue"> continue as a guest</a></p>
+    </p>
+    </div>
   </body>
 </html>
