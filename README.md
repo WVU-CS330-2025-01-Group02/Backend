@@ -1,2 +1,69 @@
-# Backend
-Backend Source Code
+# ! NOTES !
+1. WALKABILITY INDEX COULD NOT BE LOADED IN, TOO BIG OF A FILE SIZE
+
+download the [walkability index (size: 201.9 MB)]([url](https://catalog.data.gov/dataset/walkability-index8)) to local machine (click API)
+
+https://catalog.data.gov/dataset/walkability-index8
+
+2. MAKE SURE PYTHON AND PANDAS IS DOWNLOADED ON COMPUTER
+
+[directions for downloading Python in link below]([url](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.python.org/downloads/&ved=2ahUKEwiEn6eTo6iMAxXtKVkFHSzQL4MQFnoECDUQAQ&usg=AOvVaw3VuYRIaaa-SL5nRa6pfny0))
+
+https://www.python.org/downloads/
+
+3. RESOURCE ABOUT GEOIDs
+
+https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html
+
+directions for downloading Pandas below
+- open terminal
+- type "pip install pandas"
+- all set!
+
+## 2024_Gaz_national.txt
+Dataset in a txt file format with place names and their corresponding GEOID (6 digits)
+- 32334 instances (50 states + Puerto Rico)
+
+### Attributes
+- USPS: State abbreviation
+- GEOID: 6 digit GEOID
+- ANSICODE: another geographic identifier similar to GEOID from the American National Standards Institute
+- NAME: name of place
+- LSAD: legal/statistical area description
+- FUNCSTAT: functional status code
+- ALAND: land area (unit unknown)
+- AWATER: water area (unit unknown)
+- ALAND_SQMI: land area (square miles)
+- AWATER_SQMI: water area  (square miles)
+- INTPTLAT: latitude
+- INTPTLONG: longitude
+
+## datasets.py
+
+### imports
+- pandas
+- requests
+- time
+
+### functions
+
+#### txt_to_csv(txt_filepath, csv_filepath)
+converts a txt file to a csv file given the filepath of the txt file and the requested filepath of the resultant csv
+
+#### get_city_name_from_geoid(geoid_12digit)
+gets the name of a city from a 12 digit GEOID
+
+first checks for a 7 digit match, if match not found then a 5 digit match
+
+## server.js
+
+### functions
+
+#### loadWalkabilityData()
+loads in the walkability data file
+
+#### loadCityMapping()
+loads in the gazetter file
+
+#### startServer()
+starts the server on localhost:3000
