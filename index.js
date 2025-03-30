@@ -1,5 +1,3 @@
-console.log('🔧 Backend starting up...');
-
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
@@ -23,12 +21,12 @@ app.post('/api/save-location', (req, res) => {
       return res.status(500).json({ error: 'Insert failed' });
     }
 
-    res.status(200).json({ message: '✅ Location saved', id: result.insertId });
+    res.status(200).json({ message: 'Location saved', id: result.insertId });
   });
 });
 
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running at http://localhost:${PORT}`);
+  console.log(`Backend running at http://localhost:${PORT}`);
 });
 
