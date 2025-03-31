@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
+const exportCSV = require('./exportToCSV');
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,14 @@ app.post('/api/save-location', (req, res) => {
       console.error('Insert error:', err);
       return res.status(500).json({ error: 'Insert failed' });
     }
+  exportCSV()
+    .then(() => {
+      console.log('CSV file updated');
+  })
+    .catch((exportErr) => {
+      console.error('Error exporting CSV:', exportErr);
+  });
+
 
     res.status(200).json({ message: 'Location saved', id: result.insertId });
   });
