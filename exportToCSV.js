@@ -1,6 +1,7 @@
 const fs = require('fs');
 const mysql = require('mysql2/promise');
 const { Parser } = require('json2csv');
+const { exec } = require('child_process');
 require('dotenv').config();
 
 async function exportCSV() {
@@ -16,17 +17,25 @@ async function exportCSV() {
     const parser = new Parser();
     const csv = parser.parse(rows);
 
-    const exportDir = './data-exports';
-    if (!fs.existsSync(exportDir)) {
-      fs.mkdirSync(exportDir);
-    }
-
-    fs.writeFileSync(`${exportDir}/geocode_results.csv`, csv);
+    const filePath = '/Users/matthewlindsey/Desktop/Backend/data-exports/geocode_results.csv';
+    fs.writeFileSync(filePath, csv);
     console.log('✅ CSV file updated in /data-exports');
 
     await connection.end();
+
+    // Auto commit to GitHub
+    exec(
+      `cd /Users/matthewlindsey/Desktop/Backend && git add ${filePath} && git commit -m "Auto-update CSV export" && git push`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error('Git push error:', error);
+        } else {
+          console.log('CSV file committed & pushed to GitHub');
+        }
+      }
+    );
   } catch (err) {
-    console.error('❌ Error exporting CSV:', err);
+    console.error('Error exporting CSV:', err);
   }
 }
 
