@@ -1,3 +1,16 @@
+# UPDATE 4/10 6:08pm
+- uploaded files to personal computer
+- got walkability from place name function to work
+- next step: match cities even if it is not an exact match
+
+# TO DO
+~~1. upload walkability index~~
+~~2. upload gazetter place file~~
+~~3. run and see the current workings of pulling from the datasets~~
+4. fix any bugs (CURRENT STEP: GRABBING CITIES EVEN IF IT IS NOT AN EXACT MATCH)
+5. verify that it works properly and grabs the correct data and is works for majority of cities
+6. if time: try to get it on front end, sorting function, compare mode
+
 # ! NOTES !
 1. WALKABILITY INDEX COULD NOT BE LOADED IN, TOO BIG OF A FILE SIZE
 

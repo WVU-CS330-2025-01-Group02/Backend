@@ -2,6 +2,7 @@
 import pandas as pd
 import requests
 import time
+import re
 
 # convert txt to csv
 def txt_to_csv(txt_filepath, csv_filepath):
@@ -15,23 +16,27 @@ def txt_to_csv(txt_filepath, csv_filepath):
         print(f"An error occurred: {e}")
 
 # file paths
-txt_file = '2024_Gaz_place_national.txt'
-csv_file = '2024_Gaz_place_national_processed.csv'
-walk_file = 'walkability_index.csv'
-processed_walk_file = 'walkability_index_processed.csv'
+txt_file = 'Backend/2024_Gaz_place_national.txt'
+csv_file = 'Backend/2024_Gaz_place_national_processed.csv'
+walk_file = 'Backend/EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv'
+processed_walk_file = 'Backend/walkability_index_processed.csv'
 
 # convert gazetter file from txt to csv
-txt_to_csv(txt_file, csv_file)
+txt_to_csv(txt_file, 'Backend/2024_Gaz_place_national_processed.csv')
 
 # load city mapping data
 df_gaz = pd.read_csv(csv_file, dtype={"GEOID": str, "NAME": str})
 
+# POSSIBLE ISSUES HERE DEBUGGING STILL
+def normalize_place_name(name):
+    name = name.lower()
+    name = re.sub(r'\s+', '', name)
+    name = re.sub(r'(city|town|village|CDP|municipality|borough)$', '', name)
+    name = re.sub(r'[^/w]', '', name)
+    return name
+
 # convert to dictionary
 city_lookup = df_gaz.set_index("GEOID")["NAME"].to_dict()
-
-# CHECKPOINT: console should display sample of city look ups as
-# "Sample of city_lookup: {'100100': 'Abanda CDP', '100124': 'Abbeville city', '100460': 'Adamsville city', '100484': 'Addison town', '100676': 'Akron town'}"
-print("Sample of city_lookup:", {k: city_lookup[k] for k in list(city_lookup)[:5]})
 
 # get city name from constructed 12 digit GEOID
 def get_city_name_from_geoid(geoid_12digit):
@@ -40,11 +45,6 @@ def get_city_name_from_geoid(geoid_12digit):
 
     # first 7 digits are state, county, and place
     place_geoid = geoid_12digit[:7]
-
-    # CHECKPOINT: console should display GEOIDs and all information should match
-    print(f"Checking GEOID: {geoid_12digit}")
-    print(f"Checking for 7-digit match: {place_geoid}")
-    print(f"Checking for 5-digit match: {state_county_code}")
 
     # matching 7 digit GEOID
     city = city_lookup.get(place_geoid, "Unknown City")
@@ -58,6 +58,8 @@ def get_city_name_from_geoid(geoid_12digit):
         print(f"Found city for 5-digit GEOID: {city}")
     return city
 
+name_to_geoid = {normalize_place_name(v): k for k, v in city_lookup.items()}
+
 # load walkability data
 df_walk = pd.read_csv(walk_file)
 
@@ -69,28 +71,20 @@ df_walk['GEOID_12digit'] = (
     df_walk['BLKGRPCE'].astype(str).str.zfill(1)
 )
 
-# CHECKPOINT check head of GEOID12_digit column as
-# "First few GEOID_12digit values from walkability data:
-# 0    481130078254
-# 1    481130078252
-# 2    481130078253
-# 3    481130078241
-# 4    481130078242"
-print("First few GEOID_12digit values from walkability data:")
-print(df_walk['GEOID_12digit'].head())
+def get_walkability_from_place(place):
+    place_geoid = name_to_geoid.get(place)
+    if not place_geoid:
+        print(f"no GEOID found for place name")
+        return None
+    matching_rows = df_walk[df_walk['GEOID_12digit'].str.startswith(place_geoid)]
+    if matching_rows.empty:
+        print(f"no walkability data found for: {place}")
+        return None
+    print(f"found{len(matching_rows)} records for {place}")
+    return matching_rows
 
-# CHECKPOINT test get_city_name_from_geoid as
-# Test for GEOID 481130078254:
-# Checking GEOID: 481130078254
-# Checking for 7-digit match: 4811300
-# Checking for 5-digit match: 48113
-# Found city for 7-digit GEOID: Bunker Hill Village city
-# City for GEOID 481130078254: Bunker Hill Village city
-test_geoid = df_walk['GEOID_12digit'].iloc[0]
-print(f"Test for GEOID {test_geoid}:")
-city = get_city_name_from_geoid(test_geoid)
-print(f"City for GEOID {test_geoid}: {city}")
-
-# save new walkability dataset
-df_walk.to_csv(processed_walk_file, index=False)
-print("Processed walkability data saved.")
+# CHECKPOINT:
+place_search = "bunker hill"
+walkability_info = get_walkability_from_place(place_search)
+if walkability_info is not None:
+    print(walkability_info.head())
