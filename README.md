@@ -4,7 +4,7 @@
 
 - got geoid from place name even if it is not exact
 
-- next step: make sure the geoids match and look over logic on how to match the goids in both datasets
+- next step: make sure the geoids match and look over logic on how to match the goids in both datasets, trying to use tiger line source right now still seeing if it will work, have not had time to fully flesh it out
 
 # TO DO
 
