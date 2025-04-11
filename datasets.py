@@ -21,22 +21,25 @@ csv_file = 'Backend/2024_Gaz_place_national_processed.csv'
 walk_file = 'Backend/EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv'
 processed_walk_file = 'Backend/walkability_index_processed.csv'
 
+# GEOIDS ARE NOT MATCHING BETWEEN GAZETTER AND WALKABILITY FILES
+
 # convert gazetter file from txt to csv
 txt_to_csv(txt_file, 'Backend/2024_Gaz_place_national_processed.csv')
 
 # load city mapping data
 df_gaz = pd.read_csv(csv_file, dtype={"GEOID": str, "NAME": str})
 
-# POSSIBLE ISSUES HERE DEBUGGING STILL
-def normalize_place_name(name):
-    name = name.lower()
-    name = re.sub(r'\s+', '', name)
-    name = re.sub(r'(city|town|village|CDP|municipality|borough)$', '', name)
-    name = re.sub(r'[^/w]', '', name)
-    return name
-
 # convert to dictionary
 city_lookup = df_gaz.set_index("GEOID")["NAME"].to_dict()
+
+# for not exact inputs
+def fuzzy_place_lookup(place):
+    for name in name_to_geoid:
+        if place.lower() in name.lower():
+            print(f"Matched input '{place}' to gazetteer name '{name}'")
+            return name_to_geoid[name]
+    print(f"No match found for '{place}'")
+    return None
 
 # get city name from constructed 12 digit GEOID
 def get_city_name_from_geoid(geoid_12digit):
@@ -58,7 +61,7 @@ def get_city_name_from_geoid(geoid_12digit):
         print(f"Found city for 5-digit GEOID: {city}")
     return city
 
-name_to_geoid = {normalize_place_name(v): k for k, v in city_lookup.items()}
+name_to_geoid = {v: k for k, v in city_lookup.items()}
 
 # load walkability data
 df_walk = pd.read_csv(walk_file)
@@ -71,8 +74,9 @@ df_walk['GEOID_12digit'] = (
     df_walk['BLKGRPCE'].astype(str).str.zfill(1)
 )
 
+# get walkability data from place
 def get_walkability_from_place(place):
-    place_geoid = name_to_geoid.get(place)
+    place_geoid = fuzzy_place_lookup(place)
     if not place_geoid:
         print(f"no GEOID found for place name")
         return None
@@ -82,9 +86,3 @@ def get_walkability_from_place(place):
         return None
     print(f"found{len(matching_rows)} records for {place}")
     return matching_rows
-
-# CHECKPOINT:
-place_search = "bunker hill"
-walkability_info = get_walkability_from_place(place_search)
-if walkability_info is not None:
-    print(walkability_info.head())
