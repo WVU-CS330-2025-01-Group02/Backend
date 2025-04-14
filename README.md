@@ -1,10 +1,10 @@
-# UPDATE 4/10 11:30pm
+# UPDATE 4/14
 
 - uploaded files to personal computer
 
 - got geoid from place name even if it is not exact
 
-- next step: make sure the geoids match and look over logic on how to match the goids in both datasets, trying to use tiger line source right now still seeing if it will work, have not had time to fully flesh it out
+- next step: figure out how to use tiger line file
 
 # TO DO
 
