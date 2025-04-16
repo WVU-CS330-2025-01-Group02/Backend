@@ -97,17 +97,16 @@ def get_walkability_from_place(place):
         return None
 
     lat, lon = row_data["LAT"], row_data["LON"]
-    place_coordinates = Point(lon, lat)
+    place_point = gpd.GeoSeries([Point(lon, lat)], crs="EPSG:4326").to_crs(epsg=3857).iloc[0]
 
     # find nearest centroid
-    nearest = gdf.geometry.apply(lambda x: x.distance(place_coordinates)).idxmin()
+    nearest = gdf.geometry.distance(place_point).idxmin()
     nearest_geoid = gdf.loc[nearest, 'GEOID']
     walkability = df_walk[df_walk['GEOID_12digit'] == nearest_geoid]
 
     print(f"nearest block group to '{place}' is {nearest_geoid}")
-    print(f"walkability data - {walkability}")
-
-# DEBUGGING
-print(get_walkability_from_place("los angeles"))
-print(get_walkability_from_place("Morgantown"))
-print(get_walkability_from_place("MARIETTA"))
+    if not walkability.empty:
+        nat_walk_ind = walkability.iloc[0]['NatWalkInd']
+        print(f"walkability index (NatWalkInd): {nat_walk_ind}")
+    else:
+        print("no walkability data found for this block group")
