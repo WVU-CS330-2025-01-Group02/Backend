@@ -1,10 +1,4 @@
-# UPDATE 4/14
-
-- uploaded files to personal computer
-
-- got geoid from place name even if it is not exact
-
-- next step: figure out how to use tiger line file
+# UPDATE 4/15
 
 # TO DO
 
@@ -14,30 +8,65 @@
 
 ~~3. run and see the current workings of pulling from the datasets~~
 
-4. fix any bugs (CURRENT STEP: MATCHING GEOIDS LOGIC)
+~~4. fix any bugs~~
 
-5. verify that it works properly and grabs the correct data and is works for majority of cities
+5. verify that it works properly and grabs the correct data and is works for majority of cities (CURRENT STEP: GRAB SPESIFIC DATA)
 
 6. if time: try to get it on front end, sorting function, compare mode
 
 # ! NOTES !
-1. WALKABILITY INDEX COULD NOT BE LOADED IN, TOO BIG OF A FILE SIZE
 
-download the [walkability index (size: 201.9 MB)]([url](https://catalog.data.gov/dataset/walkability-index8)) to local machine (click API)
+## FEATURES
+- converts gazetter file from txt to csv
+- reads and merges location database with walkability data
+- calculates geographic centroids from block group shapefiles
+- matches user input city names to coordinates
+- finds the nearest block group using spatial distance
+- returns the row from the walkability data associated with the city
 
-https://catalog.data.gov/dataset/walkability-index8
+## GETTING STARTED
 
-2. MAKE SURE PYTHON AND PANDAS IS DOWNLOADED ON COMPUTER
+### DATA SOURCE
+- [U.S. Census Gazetteer Files (2024)](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html)
+- [EPA Smart Location Database](https://www.epa.gov/smartgrowth/smart-location-mapping#SLD)
+- [TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
 
-[directions for downloading Python in link below]([url](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.python.org/downloads/&ved=2ahUKEwiEn6eTo6iMAxXtKVkFHSzQL4MQFnoECDUQAQ&usg=AOvVaw3VuYRIaaa-SL5nRa6pfny0))
+### PREREQUISITES
+- python
+- pandas
+- numpy
+- geopandas
+- shapely
+- scipy
+- requests
 
-https://www.python.org/downloads/
+install using
+```bash
+pip install -r requirements.txt
+```
 
-3. RESOURCE ABOUT GEOIDs
+make sure you have the following datasets in the project directory
+- 2024_Gaz_place_national.txt
+- EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv
+- cb_2022_us_bg_500k/
 
-https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html
+run in terminal
+```bash
+python datasets.py
+```
 
-directions for downloading Pandas below
-- open terminal
-- type "pip install pandas"
-- all set!
+try city lookups by editing datasets.py and adding at the end for example
+```python
+get_walkability_from_place("Los Angeles")
+get_walkability_from_place("Morgantown")
+get_walkability_from_place("Marietta")
+```
+
+example output
+```bash
+Matched input 'los angeles' to gazetteer name 'East Los Angeles CDP'
+=======================================================================
+nearest block group to 'los angeles' is 780109701002
+walkability data -         OBJECTID       GEOID10       GEOID20  STATEFP  ...  GEOID_12digit         GEOID           LAT           LON
+220706    220707  7.801100e+11  7.801100e+11       78  ...   780109701002  780109701002  2.008181e+06 -7.193518e+06
+```
