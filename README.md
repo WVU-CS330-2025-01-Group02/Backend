@@ -22,11 +22,6 @@
 - scipy
 - requests
 
-install using
-```bash
-pip install -r requirements.txt
-```
-
 make sure you have the following datasets in the project directory
 - 2024_Gaz_place_national.txt
 - EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv
