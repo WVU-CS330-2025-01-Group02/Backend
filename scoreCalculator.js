@@ -24,11 +24,12 @@ async function calculateScore(fipsCode) {
         // Get FMR data
         const fmr = await getFmrByFips(fipsCode);
 
-        // Simple scoring formula (adjust weights as needed)
+        // Simple scoring formula (adjust weights as soon as user data in)
         const averageRent = (fmr.oneBedroom + fmr.twoBedroom) / 2;
+        //user FMR is the goal FMR of user based on their quiz results
         const userFMR = (Costly * avgCheap + Moderate * avgModerate + Cheap * avgCostly + Luxury * avgLuxury) / (Costly + Moderate + Cheap + Luxury);
-        const difference = Math.abs(userFMR - averageRent);
-        const score = 10 - ((difference / FMRlimit) * 10); // Percentage difference
+        const difference = Math.abs(userFMR - averageRent); // Absolute difference between user and average rent
+        const score = 10 - ((difference / FMRlimit) * 10); // 10/10 score
 
 
         return {
