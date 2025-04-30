@@ -1,5 +1,5 @@
 // backend/scoreCalculator.js
-import { getFmrByFips } from "./FMR/fmrService.js";
+import { getFmrByFips } from "../FMR/fmrService.js";
 //These need to call the users data after a personality quiz! FOR FMR SCORING
 let Cheap = 0;
 let Moderate = 0;
