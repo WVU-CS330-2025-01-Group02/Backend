@@ -1,33 +1,10 @@
-const { getWeatherByLocation } = require('./noaaService');
+const weather = require('./noaaService.js');
 
-// Test inputs
-const testLocation = {
-  lat: 40.71,  // NYC latitude
-  lng: -74.01   // NYC longitude
-};
+// Option 1: Direct station ID lookup
+weather.getExtremeWeather('GHCND:USW00014768', 2022)
+  .then(data => console.log(data));
 
-// Run test
-(async () => {
-  console.log('=== Running Simple Test ===');
-  console.log(`Input Coordinates: ${testLocation.lat}, ${testLocation.lng}`);
-  
-  try {
-    const weatherData = await getWeatherByLocation(
-      testLocation.lat,
-      testLocation.lng
-    );
-    
-    console.log('\n✅ Test Passed - Got Weather Data:');
-    console.log(weatherData);
-    
-    // Quick validation
-    if (!weatherData || !Array.isArray(weatherData)) {
-      throw new Error('No weather data returned');
-    }
-    console.log(`\nReceived ${weatherData.length} data points`);
-    
-  } catch (error) {
-    console.log('\n❌ Test Failed:');
-    console.error(error.message);
-  }
-})();
+// Option 2: Coordinate-based lookup
+weather.findNearestStation(43.16, -77.61)
+  .then(stationId => weather.getExtremeWeather(stationId))
+  .then(data => console.log(data));
