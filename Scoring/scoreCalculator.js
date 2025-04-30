@@ -13,6 +13,12 @@ let avgCostly = 1500;
 let avgLuxury = 2000;
 let FMRlimit = 1000;//scaling for the fmr scores
 
+//These are the adverse wetaher values
+let thunderStrorm = 0;
+let highWind = 0;
+let snowStorm = 0;
+let heatWave = 0;
+let adverse = 0;
 
 /**
  * Calculate a cost-of-living score
