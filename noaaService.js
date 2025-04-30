@@ -4,7 +4,6 @@ const axios = require('axios');
 const NOAA_TOKEN = process.env.NOAA_API_TOKEN;
 const BASE_URL = 'https://www.ncdc.noaa.gov/cdo-web/api/v2';
 
-// Fixed version using object literal (no 'this' binding issues)
 module.exports = {
   async getWeatherByLocation(lat, lng) {
     // Local function avoids 'this' problems
