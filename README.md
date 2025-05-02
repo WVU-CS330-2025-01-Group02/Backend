@@ -1,46 +1,72 @@
-## FEATURES
-- converts gazetter file from txt to csv
-- reads and merges location database with walkability data
-- calculates geographic centroids from block group shapefiles
-- matches user input city names to coordinates
-- finds the nearest block group using spatial distance
-- returns the row from the walkability data associated with the city
+# Backend for Weather We Go ☁️
+> Weather We Go is a web application that allows a user to see weather and walkability data for a specific location.
 
-## GETTING STARTED
-
-### DATA SOURCE
-- [U.S. Census Gazetteer Files (2024)](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html)
-- [EPA Smart Location Database](https://www.epa.gov/smartgrowth/smart-location-mapping#SLD)
-- [TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-
-### PREREQUISITES
-- python
-- pandas
-- numpy
-- geopandas
-- shapely
-- scipy
-- requests
-
-make sure you have the following datasets in the project directory
-- 2024_Gaz_place_national.txt
-- EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv
-- cb_2022_us_bg_500k/
-
-run in terminal
+## File Structure 🗂️
 ```bash
-python datasets.py
-```
+├── .vscode
+│   ├── settings.json
+├── FMR
+│   ├── .gitignore
+│   └── fmrService.js
+│   └── package.json
+├── NOAAadverseweather
+│   ├── noaaService.js
+│   └── simpleTest.js
+├── Walkability
+│   ├── city_walkability_data.csv
+│   └── datasets.py
+├── WeatherWeGo-auth
+│   ├── client
+│       ├── public
+│           ├── favicon.ico
+│           └── logo192.png
+│           └── logo512.png
+│           └── manifest.json
+│           └── robots.txt
+│       └── src
+│           ├── App.css
+│           └── App.js
+│           └── App.test.js
+│           └── Login.js
+│           └── index.css
+│           └── index.js
+│           └── login.html
+│           └── logo.svg
+│           └── register.html
+│           └── reportWebVitals.js
+│           └── setupTests.js
+│       └── .gitignore
+│       └── README.md
+│       └── package-lock.json
+│       └── package.json
+│   └── .gitignore
+│   └── Local MySQL.session.sql
+│   └── package-lock.json
+│   └── package.json
+│   └── server.js
+├── .gitignore
+├── README.md (you are here!)
+├── package-lock.json
+└── package.json
+``` 
 
-try city lookups by editing datasets.py and adding at the end for example
-```python
-get_walkability_from_place("Houston")
-```
+## Notable Files
+- <code>fmrService.js</code>
+  - Fetches 2025 FMR data by FIPS code
+  - Data includes fair market rent values by number of bedrooms
+- <code>noaaService.js</code>
+  - Gets extreme weather event counts from GSOY
+  - Matches a location with its nearest GSOY station
+  - Extreme weather is defined as days with thunderstorms, over 1" of snowfall, temperature ≥ 90°F, or wind speed ≥ 35 mph
+- <code>datasets.py</code>
+  - Takes multiples files and 
+- <code>server.js</code>
+- <code>App.js</code>
 
-example output
-```bash
-Matched input 'Houston' to gazetteer name 'Houston city'
-=======================================================================
-nearest block group to 'Houston' is 482015104001
-walkability index (NatWalkInd): 16.83333333
-```
+## Resources Used
+- Node.js
+- MySQL
+- NOAA API
+- HUB FMR API
+- EPA Smart Location Database
+- Python
