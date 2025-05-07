@@ -18,14 +18,14 @@ Weather We Go is a web application that allows users to explore destinations bas
 
 ## 📝 Notable Files
 
-- `FMR/fmrService.js`  
-  📊 Fetches 2025 HUD Fair Market Rent data by FIPS code, categorized by number of bedrooms.
+- `FMR/fmrService.js`
+  - Fetches 2025 HUD Fair Market Rent data by FIPS code, categorized by number of bedrooms.
 
 - `NOAAadverseweather/noaaService.js`  
-  🌩️ Retrieves historical weather data (e.g., thunderstorms, heat, wind, snow) from NOAA’s GSOY dataset and maps it to locations.
+  - Retrieves historical weather data (e.g., thunderstorms, heat, wind, snow) from NOAA’s GSOY dataset and maps it to locations.
 
 - `Walkability/datasets.py`  
-  🔗 Merges Census and EPA Smart Location data using spatial joins to create usable walkability datasets.
+  - Merges Census and EPA Smart Location data using spatial joins to create usable walkability datasets.
 
 ## ⚙️ Technologies & Resources
 
