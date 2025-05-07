@@ -1,70 +1,37 @@
-# Backend for Weather We Go ☁️
-> Weather We Go is a web application that allows a user to see weather and walkability data for a specific location.
+# ☁️ Weather We Go – Backend
 
-## File Structure 🗂️
-```bash
-├── .vscode
-│   ├── settings.json
-├── FMR
-│   ├── .gitignore
-│   └── fmrService.js
-│   └── package.json
-├── NOAAadverseweather
-│   ├── noaaService.js
-│   └── simpleTest.js
-├── Walkability
-│   ├── city_walkability_data.csv
-│   └── datasets.py
-├── WeatherWeGo-auth
-│   ├── client
-│       ├── public
-│           ├── favicon.ico
-│           └── logo192.png
-│           └── logo512.png
-│           └── manifest.json
-│           └── robots.txt
-│       └── src
-│           ├── App.css
-│           └── App.js
-│           └── App.test.js
-│           └── Login.js
-│           └── index.css
-│           └── index.js
-│           └── login.html
-│           └── logo.svg
-│           └── register.html
-│           └── reportWebVitals.js
-│           └── setupTests.js
-│       └── .gitignore
-│       └── README.md
-│       └── package-lock.json
-│       └── package.json
-│   └── .gitignore
-│   └── Local MySQL.session.sql
-│   └── package-lock.json
-│   └── package.json
-│   └── server.js
-├── .gitignore
-├── README.md (you are here!)
-├── package-lock.json
-└── package.json
-``` 
+Weather We Go is a web application that allows users to explore destinations based on weather, climate, and walkability. The backend handles data aggregation, processing, and API interactions to power features such as extreme weather analysis, walkability indexing, and housing affordability.
 
-## Notable Files
-- <code>fmrService.js</code>
-  - Fetches 2025 FMR data by FIPS code
-  - Data includes fair market rent values by number of bedrooms
-- <code>noaaService.js</code>
-  - Gets extreme weather event counts from GSOY
-  - Matches a location with its nearest GSOY station
-  - Extreme weather is defined as days with thunderstorms, over 1" of snowfall, temperature ≥ 90°F, or wind speed ≥ 35 mph
-- <code>datasets.py</code>
-  - Takes multiples files and merges them to be uploaded to Azure
+## 🧩 Features
 
-## Resources Used
-- Node.js
+- 🌪️ **Extreme Weather Analysis**  
+  Uses NOAA’s GSOY data to identify areas with high counts of adverse weather events.
+
+- 🏘️ **Housing Affordability**  
+  Fetches Fair Market Rent (FMR) data by FIPS code using HUD’s FMR API.
+
+- 🚶 **Walkability Scoring**  
+  Processes and merges geographic and EPA Smart Location data for walkability evaluations.
+
+- 🔐 **User Authentication**  
+  Node.js and MySQL-based backend supporting registration, login, and session management.
+
+## 📝 Notable Files
+
+- `FMR/fmrService.js`  
+  📊 Fetches 2025 HUD Fair Market Rent data by FIPS code, categorized by number of bedrooms.
+
+- `NOAAadverseweather/noaaService.js`  
+  🌩️ Retrieves historical weather data (e.g., thunderstorms, heat, wind, snow) from NOAA’s GSOY dataset and maps it to locations.
+
+- `Walkability/datasets.py`  
+  🔗 Merges Census and EPA Smart Location data using spatial joins to create usable walkability datasets.
+
+## ⚙️ Technologies & Resources
+
+- Node.js / Express
 - MySQL
-- NOAA API
-- HUB FMR API
+- NOAA GSOY API
+- HUD FMR API
 - EPA Smart Location Database
-- Python
+- Python (Pandas, GeoPandas, Shapely)
