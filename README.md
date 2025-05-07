@@ -59,9 +59,7 @@
   - Matches a location with its nearest GSOY station
   - Extreme weather is defined as days with thunderstorms, over 1" of snowfall, temperature ≥ 90°F, or wind speed ≥ 35 mph
 - <code>datasets.py</code>
-  - Takes multiples files and 
-- <code>server.js</code>
-- <code>App.js</code>
+  - Takes multiples files and merges them to be uploaded to Azure
 
 ## Resources Used
 - Node.js
